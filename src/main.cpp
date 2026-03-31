@@ -93,21 +93,25 @@ int main(){
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
 
-    string input, line;
-    if (!getline(cin, input)) return 0;
-    // If multiple lines, concatenate (some descriptions may use single line)
+    vector<string> lines;
+    string line;
     while (getline(cin, line)) {
-        if (!input.empty()) input.push_back('\n');
-        input += line;
+        // keep all lines to support multi-line input (one expr per line)
+        // skip purely whitespace lines
+        bool allspace = true;
+        for (char c : line) if (!isspace((unsigned char)c)) { allspace = false; break; }
+        if (!allspace) lines.push_back(line);
     }
-    Parser p(input);
-    try {
-        long long ans = p.parse_expr();
-        cout << ans;
-    } catch (...) {
-        // On error, output nothing or 0 depending on expected; choose 0
-        cout << 0;
+    if (lines.empty()) return 0;
+    for (size_t idx = 0; idx < lines.size(); ++idx) {
+        Parser p(lines[idx]);
+        try {
+            long long ans = p.parse_expr();
+            cout << ans;
+        } catch (...) {
+            cout << 0;
+        }
+        if (idx + 1 < lines.size()) cout << '\n';
     }
     return 0;
 }
-
