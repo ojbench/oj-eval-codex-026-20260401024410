@@ -1,4 +1,8 @@
-#include <bits/stdc++.h>
+#include <cctype>
+#include <iostream>
+#include <stdexcept>
+#include <string>
+#include <vector>
 using namespace std;
 
 // Simple arithmetic expression evaluator supporting +,-,*,/ and parentheses.
